@@ -1,61 +1,248 @@
+@import url("https://fonts.googleapis.com/css?family=Laila:700|Laila:400");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Custom CSS Variables for Light and Dark Themes */
 :root {
-  --background: 255 255 255; /* White */
-  --foreground: 23 23 23;    /* Dark Gray */
-  --primary: 59 130 246;     /* Blue-500 */
-  --primary-hover: 37 99 235; /* Blue-600 */
+  /* Light theme colors */
+  --background-50: #e5fff8;
+  --background-100: #ccfff1;
+  --background-200: #99ffe2;
+  --background-300: #66ffd4;
+  --background-400: #33ffc5;
+  --background-500: #00ffb7;
+  --background-600: #00cc92;
+  --background-700: #00996e;
+  --background-800: #006649;
+  --background-900: #003325;
+  --background-950: #001a12;
+
+  --primary-50: #e7fef7;
+  --primary-100: #cffcef;
+  --primary-200: #9efae0;
+  --primary-300: #6ef7d0;
+  --primary-400: #3df5c1;
+  --primary-500: #0df2b1;
+  --primary-600: #0ac28e;
+  --primary-700: #08916a;
+  --primary-800: #056147;
+  --primary-900: #033023;
+  --primary-950: #011812;
+
+  --secondary-50: #fee7ea;
+  --secondary-100: #fccfd5;
+  --secondary-200: #f99fab;
+  --secondary-300: #f76e81;
+  --secondary-400: #f43e56;
+  --secondary-500: #f10e2c;
+  --secondary-600: #c10b23;
+  --secondary-700: #91081b;
+  --secondary-800: #600612;
+  --secondary-900: #300309;
+  --secondary-950: #180104;
+
+  --accent-50: #fefde7;
+  --accent-100: #fcfccf;
+  --accent-200: #faf89e;
+  --accent-300: #f7f56e;
+  --accent-400: #f5f23d;
+  --accent-500: #f2ee0d;
+  --accent-600: #c2bf0a;
+  --accent-700: #918f08;
+  --accent-800: #615f05;
+  --accent-900: #303003;
+  --accent-950: #181801;
+
+  --text-50: #e7fdf8;
+  --text-100: #cffcf1;
+  --text-200: #9ff9e4;
+  --text-300: #6ff6d6;
+  --text-400: #3ff3c9;
+  --text-500: #0ff0bb;
+  --text-600: #0cc096;
+  --text-700: #099070;
+  --text-800: #06604b;
+  --text-900: #033025;
+  --text-950: #021813;
 }
 
 .dark {
-  --background: 10 10 10;    /* Near Black */
-  --foreground: 237 237 237; /* Light Gray */
-  --primary: 96 165 250;     /* Blue-400 */
-  --primary-hover: 59 130 246; /* Blue-500 */
+  /* Dark theme colors */
+  --background-50: #001a14;
+  --background-100: #003329;
+  --background-200: #006652;
+  --background-300: #00997a;
+  --background-400: #00cca3;
+  --background-500: #00ffcc;
+  --background-600: #33ffd6;
+  --background-700: #66ffe0;
+  --background-800: #99ffeb;
+  --background-900: #ccfff5;
+  --background-950: #e5fffa;
+
+  --primary-50: #011812;
+  --primary-100: #033023;
+  --primary-200: #056147;
+  --primary-300: #08916a;
+  --primary-400: #0ac28e;
+  --primary-500: #0df2b1;
+  --primary-600: #3df5c1;
+  --primary-700: #6ef7d0;
+  --primary-800: #9efae0;
+  --primary-900: #cffcef;
+  --primary-950: #e7fef7;
+
+  --secondary-50: #180104;
+  --secondary-100: #300309;
+  --secondary-200: #600612;
+  --secondary-300: #91081b;
+  --secondary-400: #c10b23;
+  --secondary-500: #f10e2c;
+  --secondary-600: #f43e56;
+  --secondary-700: #f76e81;
+  --secondary-800: #f99fab;
+  --secondary-900: #fccfd5;
+  --secondary-950: #fee7ea;
+
+  --accent-50: #181801;
+  --accent-100: #303003;
+  --accent-200: #615f05;
+  --accent-300: #918f08;
+  --accent-400: #c2bf0a;
+  --accent-500: #f2ee0d;
+  --accent-600: #f5f23d;
+  --accent-700: #f7f56e;
+  --accent-800: #faf89e;
+  --accent-900: #fcfccf;
+  --accent-950: #fefde7;
+
+  --text-50: #011813;
+  --text-100: #033026;
+  --text-200: #06604d;
+  --text-300: #089173;
+  --text-400: #0bc199;
+  --text-500: #0ef1c0;
+  --text-600: #3ef4cc;
+  --text-700: #6ef7d9;
+  --text-800: #9ff9e6;
+  --text-900: #cffcf2;
+  --text-950: #e7fef9;
 }
 
 /* Base Styles */
 body {
-  color: rgb(var(--foreground));
-  background: rgb(var(--background));
-  transition: color 0.3s ease, background-color 0.3s ease; /* Smooth theme transition */
+  font-family: "Laila", sans-serif;
+  font-weight: 400;
+  color: rgb(var(--text-900));
+  background-color: rgb(var(--background-50));
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Laila", sans-serif;
+  font-weight: 700;
+}
+
+html {
+  font-size: 100%;
+} /* 16px */
+
+h1 {
+  font-size: 4.210rem; /* 67.36px */
+}
+h2 {
+  font-size: 3.158rem; /* 50.56px */
+}
+h3 {
+  font-size: 2.369rem; /* 37.92px */
+}
+h4 {
+  font-size: 1.777rem; /* 28.48px */
+}
+h5 {
+  font-size: 1.333rem; /* 21.28px */
+}
+small {
+  font-size: 0.750rem; /* 12px */
 }
 
 /* Custom Components */
 @layer components {
   /* Button Component */
-  .btn {
+  .btn-primary {
     @apply px-4 py-2 rounded-md transition-colors duration-200 ease-in-out;
-    background-color: rgb(var(--primary));
+    background-color: rgb(var(--primary-600));
     color: white;
   }
 
-  .btn:hover {
-    background-color: rgb(var(--primary-hover));
+  .btn-primary:hover {
+    background-color: rgb(var(--primary-700));
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-md transition-colors duration-200 ease-in-out;
+    background-color: rgb(var(--secondary-500));
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background-color: rgb(var(--secondary-600));
+  }
+
+  .btn-accent {
+    @apply px-4 py-2 rounded-md transition-colors duration-200 ease-in-out;
+    background-color: rgb(var(--accent-500));
+    color: black;
+  }
+
+  .btn-accent:hover {
+    background-color: rgb(var(--accent-600));
   }
 
   /* Card Component */
   .card {
     @apply p-6 rounded-lg shadow-md;
-    background-color: rgb(var(--background));
-    border: 1px solid rgba(var(--foreground), 0.1);
+    background-color: white;
+    border: 1px solid rgba(var(--primary-200), 1);
   }
 
   /* Input Component */
   .input {
     @apply px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-offset-2;
-    background-color: rgba(var(--background), 0.8);
-    border-color: rgba(var(--foreground), 0.2);
-    color: rgb(var(--foreground));
+    background-color: white;
+    border-color: rgba(var(--primary-300), 0.5);
+    color: rgb(var(--text-900));
   }
 
-  /* Fix: Use a valid Tailwind ring color */
   .input:focus {
-    @apply ring-blue-500; /* Use a built-in Tailwind color */
-    border-color: rgb(var(--primary));
+    @apply ring-2;
+    ring-color: rgb(var(--primary-500));
+    border-color: rgb(var(--primary-500));
+  }
+
+  /* File input styling */
+  .file-input-wrapper {
+    @apply relative cursor-pointer overflow-hidden inline-block;
+  }
+
+  .file-input-wrapper input[type="file"] {
+    @apply absolute top-0 right-0 min-w-full min-h-full opacity-0 cursor-pointer block;
+  }
+
+  .file-input-button {
+    @apply px-4 py-2 rounded-md transition-colors duration-200 ease-in-out inline-block;
+    background-color: rgb(var(--primary-600));
+    color: white;
+  }
+
+  .file-input-button:hover {
+    background-color: rgb(var(--primary-700));
   }
 }
 
@@ -68,8 +255,89 @@ body {
 
   /* Gradient Text */
   .text-gradient {
-    background: linear-gradient(45deg, rgb(var(--primary)), rgb(var(--primary-hover)));
+    background: linear-gradient(45deg, rgb(var(--primary-600)), rgb(var(--primary-400)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }
+
+/* Navbar styles */
+.navbar {
+  background-color: rgb(var(--primary-700));
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Container styles */
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+}
+
+/* Main content area */
+main {
+  min-height: calc(100vh - 64px);
+}
+
+/* File list styling */
+.file-list {
+  @apply mt-6 space-y-3;
+}
+
+.file-item {
+  @apply p-4 rounded-lg transition-all duration-200;
+  background-color: white;
+  border: 1px solid rgba(var(--primary-200), 1);
+}
+
+.file-item:hover {
+  @apply shadow-md;
+  border-color: rgba(var(--primary-400), 1);
+}
+
+.file-link {
+  @apply block break-words;
+  color: rgb(var(--primary-600));
+}
+
+.file-link:hover {
+  color: rgb(var(--primary-800));
+}
+
+/* Role selection buttons */
+.role-button {
+  @apply px-6 py-3 rounded-lg transition-all duration-200 font-medium text-white mx-2;
+}
+
+.role-patient {
+  background-color: rgb(var(--primary-600));
+}
+
+.role-patient:hover {
+  background-color: rgb(var(--primary-700));
+}
+
+.role-caretaker {
+  background-color: rgb(var(--secondary-500));
+}
+
+.role-caretaker:hover {
+  background-color: rgb(var(--secondary-600));
+}
+
+/* Upload area styling */
+.upload-area {
+  @apply p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors;
+  border-color: rgba(var(--primary-300), 0.5);
+}
+
+.upload-area:hover {
+  background-color: rgba(var(--primary-100), 0.3);
+}
+
+/* Info section */
+.info-section {
+  @apply p-6 rounded-lg my-8;
+  background-color: rgba(var(--primary-100), 0.5);
+  border-left: 4px solid rgb(var(--primary-600));
+}
+
