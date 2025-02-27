@@ -10,6 +10,19 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [darkMode, setDarkMode] = useState(false) // <-- Dark mode state
+
+  // Toggle dark mode by adding/removing the 'dark' class on the HTML element
+  const toggleDarkMode = () => {
+    const htmlEl = document.documentElement
+    if (htmlEl.classList.contains("dark")) {
+      htmlEl.classList.remove("dark")
+      setDarkMode(false)
+    } else {
+      htmlEl.classList.add("dark")
+      setDarkMode(true)
+    }
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -62,6 +75,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center space-x-4">
+          {/* Dark Mode Toggle Button for Desktop */}
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center px-4 py-2 rounded-md bg-accent-500 hover:bg-accent-600 transition-colors text-black"
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+          
           {user ? (
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
@@ -125,6 +146,14 @@ export default function Navbar() {
               Resources
             </Link>
 
+            {/* Dark Mode Toggle Button for Mobile */}
+            <button
+              onClick={toggleDarkMode}
+              className="flex items-center px-4 py-2 rounded-md bg-accent-500 hover:bg-accent-600 transition-colors text-black"
+            >
+              {darkMode ? "Light Mode" : "Dark Mode"}
+            </button>
+
             <div className="pt-4 border-t border-primary-600">
               {user ? (
                 <div className="flex flex-col space-y-3">
@@ -162,4 +191,3 @@ export default function Navbar() {
     </nav>
   )
 }
-
