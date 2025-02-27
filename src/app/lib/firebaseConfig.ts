@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyDMUx6OGLNwzEqP79apE6dd6YvZUeyha3o",
   authDomain: "test-alzheimer-fb767.firebaseapp.com",
@@ -16,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
+const storage = getStorage(app);
 
 // Google Sign-In
 const signInWithGoogle = async () => {
@@ -44,4 +45,4 @@ const logOut = async () => {
   }
 };
 
-export { auth, db, signInWithGoogle, logOut };
+export { auth, db, storage, signInWithGoogle, logOut };
