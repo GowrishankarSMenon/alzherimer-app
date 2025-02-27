@@ -1,101 +1,189 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { auth, signInWithGoogle, logOut, db } from "./lib/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { addDoc, setDoc, doc, getDoc, serverTimestamp, query, where, getDocs, collection } from "firebase/firestore";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [roleSelection, setRoleSelection] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+  
+        // Check if user exists in Firestore
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+  
+        if (!userSnap.exists()) {
+          // Store user data when signing in for the first time
+          await setDoc(userRef, {
+            uid: user.uid,
+            email: user.email,
+            appName: "Alzheimer's Care App",
+            createdAt: serverTimestamp(),
+          });
+        }
+  
+        const role = await fetchUserRole(user.uid);
+        setUserRole(role);
+        if (!role) setRoleSelection(true);
+      } else {
+        setUser(null);
+        setUserRole(null);
+      }
+    });
+  
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (user && userRole) {
+      fetchFiles();
+    }
+  }, [user, userRole]);
+
+  const fetchUserRole = async (uid: string) => {
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+    return userSnap.exists() ? userSnap.data().role : null;
+  };
+
+  const handleRoleSelection = async (role: string) => {
+    if (!user) return;
+    
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      email: user.email,
+      role,
+      appName: "Alzheimer's Care App",
+      createdAt: serverTimestamp(),
+    });
+  
+    setUserRole(role);
+    setRoleSelection(false);
+    fetchFiles();
+  };
+
+  const fetchFiles = async () => {
+    if (!user || !userRole) return;
+
+    let q;
+    if (userRole === "caretaker") {
+      q = query(collection(db, "uploads"));
+    } else {
+      q = query(collection(db, "uploads"), where("userId", "==", user.uid));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const files = querySnapshot.docs.map((doc) => doc.data().fileUrl);
+
+    setUploadedFiles(files);
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file || !user || !userRole) return alert("Please select a file and sign in.");
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          pinata_api_key: "2891dcd4032fb6adc0f9",
+          pinata_secret_api_key: "f8f21623df832f745def2f7f827cd01f6f31a95a57578e1434b30190c5abd9d0",
+        },
+      });
+
+      const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+      await addDoc(collection(db, "uploads"), {
+        userId: user.uid,
+        fileUrl: ipfsUrl,
+        uploadedAt: serverTimestamp(),
+        role: userRole,
+      });
+
+      setUploadedFiles((prev) => [ipfsUrl, ...prev]);
+      setFile(null);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-8">
+      <div className="max-w-4xl w-full">
+        <h1 className="text-2xl font-bold mb-6 text-center">Upload Files to IPFS (Pinata)</h1>
+
+        <div className="flex flex-col items-center mb-6">
+          {user ? (
+            <div className="flex flex-col items-center">
+              <p className="text-lg font-medium">Welcome, {user.displayName}</p>
+              <button onClick={logOut} className="mt-2 px-4 py-2 bg-red-500 text-white rounded">Log Out</button>
+            </div>
+          ) : (
+            <button onClick={signInWithGoogle} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Sign in with Google</button>
+          )}
+
+          {roleSelection && (
+            <div className="mt-4">
+              <p className="text-lg font-medium">Select your role:</p>
+              <button onClick={() => handleRoleSelection("patient")} className="mt-2 px-4 py-2 bg-green-500 text-white rounded">Patient</button>
+              <button onClick={() => handleRoleSelection("caretaker")} className="mt-2 ml-2 px-4 py-2 bg-purple-500 text-white rounded">Caretaker</button>
+            </div>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {user && userRole && (
+          <div className="flex flex-col items-center mb-6">
+            <input type="file" onChange={handleFileChange} className="mt-4" />
+            <button 
+              onClick={handleUpload} 
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded" 
+              disabled={loading}
+            >
+              {loading ? "Uploading..." : "Upload"}
+            </button>
+          </div>
+        )}
+
+        <div className="w-full">
+          <h2 className="mt-8 text-xl font-semibold">Uploaded Files</h2>
+          {uploadedFiles.length === 0 ? (
+            <p className="text-gray-500">No uploaded files.</p>
+          ) : (
+            <ul className="mt-4 space-y-2">
+              {uploadedFiles.map((url, index) => (
+                <li key={index} className="break-words">
+                  <a 
+                    href={url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-500 underline"
+                  >
+                    {url}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
