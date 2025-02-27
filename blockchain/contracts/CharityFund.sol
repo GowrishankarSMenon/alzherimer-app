@@ -7,7 +7,31 @@ contract CharityFund {
     constructor() {
         owner = msg.sender;
     }
+      
+         struct Person {
+        string name;
+        string relation;
+        string phone;
+        string memoryNote;
+    }
 
+    mapping(address => Person[]) private userContacts;
+
+    event ContactAdded(address indexed user, string name, string relation);
+    
+   
+
+    function addContact(string memory _name, string memory _relation, string memory _phone, string memory _memoryNote) public {
+        userContacts[msg.sender].push(Person(_name, _relation, _phone, _memoryNote));
+        emit ContactAdded(msg.sender, _name, _relation);
+    }
+
+    /// @notice Retrieve all stored contacts
+    function getContacts() public view returns (Person[] memory) {
+        return userContacts[msg.sender];
+    }
+
+    
     // Function to contribute funds to the contract
     function contribute(uint256 amount  ) public payable {
         require(msg.value == amount *1 ether, "Sent value must match the specified amount");
