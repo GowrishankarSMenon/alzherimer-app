@@ -12,59 +12,51 @@ const CONTRACT_ABI = Abi.abi;
 
 export default function PersonList() {
   const [persons, setPersons] = useState<string[]>([]);
+  const [profileImages, setProfileImages] = useState<{ [key: string]: string }>({});
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const [account, setAccount] = useState<string | null>(null);
   const router = useRouter();
 
-  const connectWallet = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      try {
+  useEffect(() => {
+    const initContract = async () => {
+      if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.BrowserProvider(window.ethereum);
-
-        // Prompt user to select a MetaMask account
-        const accounts = await provider.send("eth_requestAccounts", []);
-        setAccount(accounts[0]); // Store selected account
-
-        // Initialize contract with selected account
-        const signer = await provider.getSigner(accounts[0]);
+        const signer = await provider.getSigner();
         const newContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
         setContract(newContract);
-
-        // Fetch persons after connecting
         fetchPersons(newContract);
-      } catch (error) {
-        console.error("Error connecting to MetaMask:", error);
       }
-    } else {
-      console.error("MetaMask is not installed");
-    }
-  };
+    };
+    initContract();
+  }, []);
 
   const fetchPersons = async (contractInstance: ethers.Contract) => {
     try {
       const data = await contractInstance.getPersons();
       setPersons(data);
+      fetchProfileImages(contractInstance, data);
     } catch (error) {
       console.error("Failed to fetch persons", error);
     }
+  };
+
+  const fetchProfileImages = async (contractInstance: ethers.Contract, persons: string[]) => {
+    const images: { [key: string]: string } = {};
+    for (const name of persons) {
+      try {
+        const imageUrl = await contractInstance.getProfileImage(name);
+        images[name] = imageUrl || "/default-avatar.png"; // Use default avatar if empty
+      } catch (error) {
+        console.error(`Failed to fetch profile image for ${name}`, error);
+        images[name] = "/default-avatar.png"; // Fallback in case of error
+      }
+    }
+    setProfileImages(images);
   };
 
   return (
     <div className="w-[30%] max-w-3xl bg-gray-900 text-white p-4 flex flex-col min-h-screen">
       {/* Title */}
       <h2 className="text-xl font-bold mb-4">Stored Persons</h2>
-
-      {/* Connect Wallet Button */}
-      {!account ? (
-        <button
-          className="w-full mb-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition"
-          onClick={connectWallet}
-        >
-          Connect Wallet
-        </button>
-      ) : (
-        <p className="text-sm text-gray-400 mb-4">Connected: {account.slice(0, 6)}...{account.slice(-4)}</p>
-      )}
 
       {/* List of Persons */}
       <ul className="space-y-3 flex-grow overflow-y-auto">
@@ -76,11 +68,11 @@ export default function PersonList() {
           >
             {/* Circular User Image */}
             <Image
-              src="/user-icon.png"
+              src={profileImages[name] || "/default-avatar.png"}
               alt="User"
               width={40}
               height={40}
-              className="rounded-full border border-gray-500"
+              className="rounded-full border border-gray-500 object-cover"
             />
             <span className="text-lg">{name}</span>
           </li>

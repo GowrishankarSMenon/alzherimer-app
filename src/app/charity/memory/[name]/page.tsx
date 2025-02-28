@@ -91,7 +91,21 @@ export default function MemoryVault() {
     <div className="flex h-screen">
       {/* Left Section - Memory Display */}
       <div className="w-1/2 bg-blue-900 text-white p-6 overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-4">Memories for {name}</h2>
+      <div className="flex items-center space-x-4">
+  
+  {/* Heading */}
+  <h2 className="text-2xl font-bold mb-4">Memories for {name}</h2>
+  {/* Circular Image */}
+  <div className="w-12 h-12 rounded-full overflow-hidden">
+    <img
+      src={"profileImage"} // Dynamic image URL
+      alt="Profile"
+      className="w-full h-full object-cover"
+    />
+  </div>
+
+  
+</div>
 
         {/* Wallet Connect Button */}
         {!account ? (
