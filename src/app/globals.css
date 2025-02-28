@@ -19,6 +19,8 @@
 
 /* Base Styles */
 body {
+  font-size: 1.25rem; /* Increase base font size for readability */
+  line-height: 1.75rem; /* Increase line spacing for clarity */
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   transition: color 0.3s ease, background-color 0.3s ease; /* Smooth theme transition */
@@ -28,7 +30,7 @@ body {
 @layer components {
   /* Button Component */
   .btn {
-    @apply px-4 py-2 rounded-md transition-colors duration-200 ease-in-out;
+    @apply px-6 py-3 text-lg font-semibold rounded-lg transition-colors duration-200 ease-in-out;
     background-color: rgb(var(--primary));
     color: white;
   }
@@ -37,25 +39,33 @@ body {
     background-color: rgb(var(--primary-hover));
   }
 
-  /* Card Component */
+  /* Large and Accessible Card Component */
   .card {
-    @apply p-6 rounded-lg shadow-md;
+    @apply p-8 rounded-xl shadow-md text-lg;
     background-color: rgb(var(--background));
-    border: 1px solid rgba(var(--foreground), 0.1);
+    border: 1px solid rgba(var(--foreground), 0.2);
   }
 
   /* Input Component */
   .input {
-    @apply px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply px-5 py-3 text-lg rounded-md border focus:outline-none focus:ring-2 focus:ring-offset-2;
     background-color: rgba(var(--background), 0.8);
     border-color: rgba(var(--foreground), 0.2);
     color: rgb(var(--foreground));
   }
 
-  /* Fix: Use a valid Tailwind ring color */
   .input:focus {
-    @apply ring-blue-500; /* Use a built-in Tailwind color */
+    @apply ring-blue-500;
     border-color: rgb(var(--primary));
+  }
+
+  /* Headings */
+  .heading {
+    @apply text-3xl font-bold text-gray-800;
+  }
+
+  .subheading {
+    @apply text-2xl font-semibold text-gray-600;
   }
 }
 

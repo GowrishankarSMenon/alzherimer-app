@@ -11,6 +11,7 @@ import ConnectedCaretakers from "./ConnectedCaretakers";
 import UploadedMemories from "./UploadedMemories";
 import UploadForm from "./UploadForm";
 import { uploadToPinata } from "./pinata";
+import Link from "next/link";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
@@ -336,6 +337,7 @@ export default function Home() {
       console.error("Error removing connection:", error);
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
       <Header user={user} userRole={userRole} />
@@ -345,26 +347,30 @@ export default function Home() {
         )}
         {!roleSelection && user && (
           <div>
-            <UploadForm
-              file={file}
-              setFile={setFile}
-              title={title}
-              setTitle={setTitle}
-              description={description}
-              setDescription={setDescription}
-              handleUpload={handleUpload}
-              preview={preview}
-              loading={loading}
-              handleFileChange={handleFileChange}
-            />
-            <SearchCaretakers
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              handleSearch={handleSearch}
-              isSearching={isSearching}
-              searchResults={searchResults}
-              sendConnectionRequest={sendConnectionRequest}
-            />
+            {userRole === "patient" && (
+              <>
+                <UploadForm
+                  file={file}
+                  setFile={setFile}
+                  title={title}
+                  setTitle={setTitle}
+                  description={description}
+                  setDescription={setDescription}
+                  handleUpload={handleUpload}
+                  preview={preview}
+                  loading={loading}
+                  handleFileChange={handleFileChange}
+                />
+                <SearchCaretakers
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
+                  handleSearch={handleSearch}
+                  isSearching={isSearching}
+                  searchResults={searchResults}
+                  sendConnectionRequest={sendConnectionRequest}
+                />
+              </>
+            )}
             <PendingRequests
               pendingRequests={pendingRequests}
               acceptConnectionRequest={acceptConnectionRequest}
@@ -373,8 +379,29 @@ export default function Home() {
             <ConnectedCaretakers
               connectedUsers={connectedUsers}
               removeConnection={removeConnection}
+              title={userRole === "patient" ? "Connected Caretakers" : "Connected Patients"}
             />
             <UploadedMemories uploadedFiles={uploadedFiles} />
+          </div>
+        )}
+        
+        {/* Charity Section - Only Visible if User is Logged In */}
+        {user && (
+          <div className="mt-6 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Charity Section
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/charity">
+                <button className="btn text-lg px-6 py-3">Charity Home</button>
+              </Link>
+              <Link href="/charity/docs">
+                <button className="btn text-lg px-6 py-3">Charity Documents</button>
+              </Link>
+              <Link href="/charity/biodata">
+                <button className="btn text-lg px-6 py-3">Charity Biodata</button>
+              </Link>
+            </div>
           </div>
         )}
       </main>
