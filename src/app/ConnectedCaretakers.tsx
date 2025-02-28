@@ -7,6 +7,7 @@ interface ConnectedUser {
 interface ConnectedCaretakersProps {
   connectedUsers: ConnectedUser[];
   removeConnection: (uid: string) => void;
+  title: string;
 }
 
 export default function ConnectedCaretakers({ connectedUsers, removeConnection }: ConnectedCaretakersProps) {
