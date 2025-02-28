@@ -407,8 +407,7 @@ export default function Home() {
                   <h3 className="text-lg font-semibold mb-3">{step}</h3>
                   <p className="text-gray-600 text-sm mb-4">Secure upload process with automatic metadata tagging and organization</p>
                   <button className="text-indigo-600 flex items-center gap-1.5 text-sm font-medium hover:text-indigo-700">
-                    Learn More
-                    <ChevronRightIcon className="w-4 h-4" />
+                
                   </button>
                 </div>
               ))}
