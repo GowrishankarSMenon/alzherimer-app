@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { auth, db } from "./lib/firebaseConfig";
+import { logOut, signInWithGoogle,auth, db } from "./lib/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp, query, collection, where, orderBy, getDocs, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import Header from "./Header";
@@ -18,6 +18,7 @@ import {
   ShieldCheckIcon, 
   ClockIcon 
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 export default function Home() {
   const [user, setUser] = useState<any>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -365,9 +366,10 @@ export default function Home() {
               A compassionate platform connecting Alzheimer's patients with their caregivers through shared memories and secure communication.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md">
+           <Link href={"/charity"}> <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md">
                 Get Started
               </button>
+              </Link>
               <button className="border border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-50 transition-all shadow-sm">
                 Learn More
               </button>
@@ -419,10 +421,12 @@ export default function Home() {
               <h2 className="text-3xl font-bold mb-4">Start Preserving Memories Today</h2>
               <p className="text-gray-200 mb-8">Join thousands of families already benefiting from our secure memory preservation platform</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-indigo-600 px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-50 transition-all shadow-sm">
+                <button onClick={signInWithGoogle} // added onClick handler here
+ className="bg-white text-indigo-600 px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-50 transition-all shadow-sm">
                   Sign Up Free
                 </button>
-                <button className="border border-white text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-white/10 transition-all">
+                <button
+                 className="border border-white text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-white/10 transition-all">
                   Watch Demo
                 </button>
               </div>
