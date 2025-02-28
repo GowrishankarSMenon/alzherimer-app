@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\ebin\\Desktop\\merged2\\alzherimer-app\\blockchain\\contracts\\CharityFund.sol": {
-      "lastModificationDate": 1740754272258,
-      "contentHash": "6b0b42d017de10572aaf1001eb38d52d",
+      "lastModificationDate": 1740762492260,
+      "contentHash": "47eb3204d85e8163025c077c7e6796f8",
       "sourceName": "contracts/CharityFund.sol",
       "solcConfig": {
         "version": "0.8.28",

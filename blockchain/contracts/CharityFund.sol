@@ -62,7 +62,7 @@ contract CharityFund {
 
 // start charity biodata
 
-    struct dairyentry{
+    struct dairyentry {
         string day;
         string dairy;
     }
@@ -72,20 +72,24 @@ contract CharityFund {
         string memoryNote;
     }
 
-    mapping(address => string[]) private userPersonNames; // Stores names for each user
+    // Stores names for each user
+    mapping(address => string[]) private userPersonNames; 
+    // Stores details per name for each user
     mapping(address => mapping(string => PersonDetails[])) private userContactDetails;
     mapping(address => dairyentry[]) private userDairyEntries;
-     // Stores details per name for each user
+    // New mapping: for each user and person name, store a profile image URL
+    mapping(address => mapping(string => string)) private userProfileImages;
 
-    event PersonAdded(address indexed user, string name);
+    // Updated event to include profile image URL
+    event PersonAdded(address indexed user, string name, string profileImageUrl);
     event DetailAdded(address indexed user, string name, string date, string memoryNote);
     event DairyAdded(address indexed user, string date, string dairyentry);
 
-    function addDairyentry(string memory _day,string memory _dairy) public 
-    { userDairyEntries[msg.sender].push(dairyentry(_day,_dairy));
-    emit DairyAdded(msg.sender, _day, _dairy);
-
+    function addDairyentry(string memory _day, string memory _dairy) public {
+        userDairyEntries[msg.sender].push(dairyentry(_day, _dairy));
+        emit DairyAdded(msg.sender, _day, _dairy);
     }
+
     // Function to check if a person exists for the caller
     function personExists(string memory _name) private view returns (bool) {
         string[] memory persons = userPersonNames[msg.sender];
@@ -97,38 +101,44 @@ contract CharityFund {
         return false;
     }
 
-    // Function to add a person's name (if not already added)
-    function addPerson(string memory _name) public {
+    // Add a person along with their profile image URL
+    function addPerson(string memory _name, string memory _profileImageUrl) public {
         require(bytes(_name).length > 0, "Name cannot be empty");
         require(!personExists(_name), "Person already exists");
 
         userPersonNames[msg.sender].push(_name);
-        emit PersonAdded(msg.sender, _name);
+        userProfileImages[msg.sender][_name] = _profileImageUrl;
+        emit PersonAdded(msg.sender, _name, _profileImageUrl);
     }
 
     // Function to add details for a specific person
     function addDetail(string memory _name, string memory _date, string memory _memoryNote) public {
         require(personExists(_name), "Person does not exist. Add them first.");
-        require(bytes(_date).length > 0, "Phone cannot be empty");
+        require(bytes(_date).length > 0, "Date cannot be empty");
         require(bytes(_memoryNote).length > 0, "Memory note cannot be empty");
 
         userContactDetails[msg.sender][_name].push(PersonDetails(_date, _memoryNote));
         emit DetailAdded(msg.sender, _name, _date, _memoryNote);
     }
 
-
-    // Function to get all persons stored by the sender
+    // Get all persons stored by the sender
     function getPersons() public view returns (string[] memory) {
         return userPersonNames[msg.sender];
     }
 
-    // Function to get details of a specific person stored by the sender
+    // Get the profile image URL for a specific person
+    function getProfileImage(string memory _name) public view returns (string memory) {
+        require(personExists(_name), "Person does not exist.");
+        return userProfileImages[msg.sender][_name];
+    }
+
+    // Get details of a specific person stored by the sender
     function getPersonDetails(string memory _name) public view returns (PersonDetails[] memory) {
         require(personExists(_name), "Person does not exist.");
         return userContactDetails[msg.sender][_name];
     }
 
-    function getDairyEntry() public view returns (dairyentry[] memory){ 
+    function getDairyEntry() public view returns (dairyentry[] memory) { 
         return userDairyEntries[msg.sender];
     }
 // medical record...

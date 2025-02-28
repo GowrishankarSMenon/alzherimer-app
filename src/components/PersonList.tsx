@@ -12,6 +12,7 @@ const CONTRACT_ABI = Abi.abi;
 
 export default function PersonList() {
   const [persons, setPersons] = useState<string[]>([]);
+  const [profileImages, setProfileImages] = useState<{ [key: string]: string }>({});
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const router = useRouter();
 
@@ -32,9 +33,24 @@ export default function PersonList() {
     try {
       const data = await contractInstance.getPersons();
       setPersons(data);
+      fetchProfileImages(contractInstance, data);
     } catch (error) {
       console.error("Failed to fetch persons", error);
     }
+  };
+
+  const fetchProfileImages = async (contractInstance: ethers.Contract, persons: string[]) => {
+    const images: { [key: string]: string } = {};
+    for (const name of persons) {
+      try {
+        const imageUrl = await contractInstance.getProfileImage(name);
+        images[name] = imageUrl || "/default-avatar.png"; // Use default avatar if empty
+      } catch (error) {
+        console.error(`Failed to fetch profile image for ${name}`, error);
+        images[name] = "/default-avatar.png"; // Fallback in case of error
+      }
+    }
+    setProfileImages(images);
   };
 
   return (
@@ -52,11 +68,11 @@ export default function PersonList() {
           >
             {/* Circular User Image */}
             <Image
-              src="/user-icon.png"
+              src={profileImages[name] || "/default-avatar.png"}
               alt="User"
               width={40}
               height={40}
-              className="rounded-full border border-gray-500"
+              className="rounded-full border border-gray-500 object-cover"
             />
             <span className="text-lg">{name}</span>
           </li>
