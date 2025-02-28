@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import Abi from "../../../../blockchain/artifacts/contracts/CharityFund.sol/CharityFund.json"
+import Abi from "../../../../blockchain/artifacts/contracts/CharityFund.sol/CharityFund.json";
 
-const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; 
+const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const CONTRACT_ABI = Abi.abi;
 
 export default function MemoryVault() {
@@ -12,10 +12,10 @@ export default function MemoryVault() {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [persons, setPersons] = useState<string[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
-  const [details, setDetails] = useState<any[]>([]);
+  const [details, setDetails] = useState<{ [key: string]: any[] }>({});
   const [personName, setPersonName] = useState("");
   const [memoryForm, setMemoryForm] = useState({ date: "", memoryNote: "" });
+  const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -40,7 +40,6 @@ export default function MemoryVault() {
 
       const newContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
       setContract(newContract);
-
       await fetchPersons(newContract);
     } catch (error) {
       console.error("Wallet Connection Failed", error);
@@ -52,19 +51,13 @@ export default function MemoryVault() {
     try {
       const data = await contractInstance.getPersons();
       setPersons(data);
+      const detailsData: { [key: string]: any[] } = {};
+      for (const name of data) {
+        detailsData[name] = await contractInstance.getPersonDetails(name);
+      }
+      setDetails(detailsData);
     } catch (error) {
       console.error("Failed to fetch persons", error);
-    }
-  };
-
-  const fetchDetails = async (name: string) => {
-    if (!contract) return;
-    try {
-      const data = await contract.getPersonDetails(name);
-      setDetails(data);
-      setSelectedPerson(name);
-    } catch (error) {
-      console.error("Failed to fetch details", error);
     }
   };
 
@@ -77,11 +70,9 @@ export default function MemoryVault() {
     try {
       const signer = await provider.getSigner();
       const contractWithSigner = contract.connect(signer);
-
       const tx = await contractWithSigner.addPerson(personName);
       await tx.wait();
       alert("Person Added!");
-
       setPersonName("");
       fetchPersons(contract);
     } catch (error) {
@@ -99,7 +90,6 @@ export default function MemoryVault() {
     try {
       const signer = await provider.getSigner();
       const contractWithSigner = contract.connect(signer);
-
       const tx = await contractWithSigner.addDetail(
         selectedPerson,
         memoryForm.date,
@@ -108,9 +98,8 @@ export default function MemoryVault() {
 
       await tx.wait();
       alert("Memory Added!");
-
       setMemoryForm({ date: "", memoryNote: "" });
-      fetchDetails(selectedPerson);
+      fetchPersons(contract);
     } catch (error) {
       console.error("Transaction Failed", error);
       alert("Transaction Failed!");
@@ -119,10 +108,27 @@ export default function MemoryVault() {
 
   return (
     <div className="flex h-screen">
-      {/* Left Side - Black Screen */}
-      <div className="w-1/2 bg-black"></div>
+      {/* Left Side - List of Persons and their Memories */}
+      <div className="w-1/2 bg-gray-900 text-white p-6 overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">Stored Persons</h2>
+        <ul>
+          {persons.map((name, index) => (
+            <li key={index} className="mb-4">
+              <p className="text-lg font-semibold">{name}</p>
+              <ul className="ml-4 text-sm">
+                {details[name]?.map((detail, i) => (
+                  <li key={i} className="border-b py-1">
+                    <p className="font-semibold">{detail.date}</p>
+                    <p className="italic">{detail.memoryNote}</p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      {/* Right Side - UI */}
+      {/* Right Side - Adding Options */}
       <div className="w-1/2 p-8 flex flex-col items-center justify-center bg-gray-100">
         <h1 className="text-3xl font-bold mb-4">MemoryVault DApp</h1>
 
@@ -148,61 +154,35 @@ export default function MemoryVault() {
           </button>
         </div>
 
-        {/* List Persons */}
-        <div className="w-full max-w-md mt-6">
-          <h2 className="text-xl font-bold mb-2">Stored Persons</h2>
-          <ul className="bg-white shadow p-4 rounded">
-            {persons.map((name, index) => (
-              <li
-                key={index}
-                className={`border-b py-2 cursor-pointer ${
-                  selectedPerson === name ? "bg-gray-200" : ""
-                }`}
-                onClick={() => fetchDetails(name)}
-              >
-                {name}
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* Add Memory */}
-        {selectedPerson && (
-          <div className="w-full max-w-md mt-6">
-            <h2 className="text-xl font-bold mb-2">Add Memory for {selectedPerson}</h2>
-            <input
-              type="text"
-              placeholder="Date"
-              value={memoryForm.date}
-              onChange={(e) => setMemoryForm({ ...memoryForm, date: e.target.value })}
-              className="w-full p-2 border rounded mb-2"
-            />
-            <textarea
-              placeholder="Memory Note"
-              value={memoryForm.memoryNote}
-              onChange={(e) => setMemoryForm({ ...memoryForm, memoryNote: e.target.value })}
-              className="w-full p-2 border rounded mb-2"
-            />
-            <button className="bg-purple-600 text-white px-4 py-2 rounded w-full" onClick={addMemory}>
-              Add Memory
-            </button>
-          </div>
-        )}
-
-        {/* Display Memories */}
-        {details.length > 0 && (
-          <div className="w-full max-w-md mt-6">
-            <h2 className="text-xl font-bold mb-2">Memories for {selectedPerson}</h2>
-            <ul className="bg-white shadow p-4 rounded">
-              {details.map((detail, index) => (
-                <li key={index} className="border-b py-2">
-                  <p className="font-semibold">{detail.date}</p>
-                  <p className="italic text-sm">{detail.memoryNote}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="w-full max-w-md mt-6">
+          <h2 className="text-xl font-bold mb-2">Add Memory</h2>
+          <select
+            className="w-full p-2 border rounded mb-2"
+            onChange={(e) => setSelectedPerson(e.target.value)}
+          >
+            <option value="">Select a Person</option>
+            {persons.map((name, index) => (
+              <option key={index} value={name}>{name}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            placeholder="Date"
+            value={memoryForm.date}
+            onChange={(e) => setMemoryForm({ ...memoryForm, date: e.target.value })}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <textarea
+            placeholder="Memory Note"
+            value={memoryForm.memoryNote}
+            onChange={(e) => setMemoryForm({ ...memoryForm, memoryNote: e.target.value })}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <button className="bg-purple-600 text-white px-4 py-2 rounded w-full" onClick={addMemory}>
+            Add Memory
+          </button>
+        </div>
       </div>
     </div>
   );
