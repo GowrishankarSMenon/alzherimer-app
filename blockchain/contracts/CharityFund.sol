@@ -8,30 +8,9 @@ contract CharityFund {
         owner = msg.sender;
     }
       
-         struct Person {
-        string name;
-        string relation;
-        string phone;
-        string memoryNote;
-    }
+       
+    // charity
 
-    mapping(address => Person[]) private userContacts;
-
-    event ContactAdded(address indexed user, string name, string relation);
-    
-   
-
-    function addContact(string memory _name, string memory _relation, string memory _phone, string memory _memoryNote) public {
-        userContacts[msg.sender].push(Person(_name, _relation, _phone, _memoryNote));
-        emit ContactAdded(msg.sender, _name, _relation);
-    }
-
-    /// @notice Retrieve all stored contacts
-    function getContacts() public view returns (Person[] memory) {
-        return userContacts[msg.sender];
-    }
-
-    
     // Function to contribute funds to the contract
     function contribute(uint256 amount  ) public payable {
         require(msg.value == amount *1 ether, "Sent value must match the specified amount");
@@ -52,7 +31,7 @@ contract CharityFund {
 
 
     }
-
+// start charity/docs
     struct Document {
         string name;
         string description;
@@ -80,4 +59,77 @@ contract CharityFund {
    function getaccounts() public view returns (Account[] memory) {
     return userAccounts[msg.sender];
 }
+
+// start charity biodata
+
+    struct dairyentry{
+        string day;
+        string dairy;
+    }
+    
+    struct PersonDetails {
+        string date;
+        string memoryNote;
+    }
+
+    mapping(address => string[]) private userPersonNames; // Stores names for each user
+    mapping(address => mapping(string => PersonDetails[])) private userContactDetails;
+    mapping(address => dairyentry[]) private userDairyEntries;
+     // Stores details per name for each user
+
+    event PersonAdded(address indexed user, string name);
+    event DetailAdded(address indexed user, string name, string date, string memoryNote);
+    event DairyAdded(address indexed user, string date, string dairyentry);
+
+    function addDairyentry(string memory _day,string memory _dairy) public 
+    { userDairyEntries[msg.sender].push(dairyentry(_day,_dairy));
+    emit DairyAdded(msg.sender, _day, _dairy);
+
+    }
+    // Function to check if a person exists for the caller
+    function personExists(string memory _name) private view returns (bool) {
+        string[] memory persons = userPersonNames[msg.sender];
+        for (uint i = 0; i < persons.length; i++) {
+            if (keccak256(bytes(persons[i])) == keccak256(bytes(_name))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Function to add a person's name (if not already added)
+    function addPerson(string memory _name) public {
+        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(!personExists(_name), "Person already exists");
+
+        userPersonNames[msg.sender].push(_name);
+        emit PersonAdded(msg.sender, _name);
+    }
+
+    // Function to add details for a specific person
+    function addDetail(string memory _name, string memory _date, string memory _memoryNote) public {
+        require(personExists(_name), "Person does not exist. Add them first.");
+        require(bytes(_date).length > 0, "Phone cannot be empty");
+        require(bytes(_memoryNote).length > 0, "Memory note cannot be empty");
+
+        userContactDetails[msg.sender][_name].push(PersonDetails(_date, _memoryNote));
+        emit DetailAdded(msg.sender, _name, _date, _memoryNote);
+    }
+
+
+    // Function to get all persons stored by the sender
+    function getPersons() public view returns (string[] memory) {
+        return userPersonNames[msg.sender];
+    }
+
+    // Function to get details of a specific person stored by the sender
+    function getPersonDetails(string memory _name) public view returns (PersonDetails[] memory) {
+        require(personExists(_name), "Person does not exist.");
+        return userContactDetails[msg.sender][_name];
+    }
+
+    function getDairyEntry() public view returns (dairyentry[] memory){ 
+        return userDairyEntries[msg.sender];
+    }
+
 }

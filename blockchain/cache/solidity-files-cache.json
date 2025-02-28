@@ -1,45 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\ebin\\Desktop\\Combined\\alzherimer-app\\blockchain\\contracts\\CharityFund.sol": {
-      "lastModificationDate": 1740708184932,
-      "contentHash": "d4dee7e01f80cba9831ccb92f5809c16",
-      "sourceName": "contracts/CharityFund.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "CharityFund"
-      ]
-    },
     "C:\\Users\\ebin\\Desktop\\New folder\\alzherimer-app\\blockchain\\contracts\\CharityFund.sol": {
-      "lastModificationDate": 1740708184932,
-      "contentHash": "d4dee7e01f80cba9831ccb92f5809c16",
+      "lastModificationDate": 1740733992603,
+      "contentHash": "f06ac85a190ebf99368588fa0d908ba3",
       "sourceName": "contracts/CharityFund.sol",
       "solcConfig": {
         "version": "0.8.28",
