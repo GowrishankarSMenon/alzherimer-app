@@ -19,6 +19,7 @@ import {
   ClockIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import PersonList from "@/components/PersonList";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
@@ -348,7 +349,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
       <Header user={user} userRole={userRole} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="contents-main flex gap-6">
+      <main
+  className={`${
+    userRole === "patient" ? "w-[70%] max-w-7xl" : "mx-auto"
+  } px-4 sm:px-6 lg:px-8`}
+>
+
         {roleSelection && user && (
           <RoleSelection handleRoleSelection={handleRoleSelection} />
         )}
@@ -505,9 +512,11 @@ export default function Home() {
     </div>
   </div>
 )}
-
       </main>
-
+      {userRole==="patient" && (
+        <PersonList/>
+      )}
+      </div>
       {/* Footer */}
       {!user && (
         <footer className="border-t border-gray-200 bg-white mt-24">
