@@ -1,4 +1,16 @@
-export default function PendingRequests({ pendingRequests, acceptConnectionRequest, rejectConnectionRequest }) {
+interface PendingRequest {
+  uid: string;
+  displayName?: string;
+  email: string;
+}
+
+interface PendingRequestsProps {
+  pendingRequests: PendingRequest[];
+  acceptConnectionRequest: (uid: string) => void;
+  rejectConnectionRequest: (uid: string) => void;
+}
+
+export default function PendingRequests({ pendingRequests, acceptConnectionRequest, rejectConnectionRequest }: PendingRequestsProps) {
     return (
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Pending Requests</h2>
