@@ -28,7 +28,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
 }) => {
   return (
     <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">Upload a Memory</h2>
+      <h2 className="text-xl text-[#ed6325] font-semibold mb-4">Upload a Memory</h2>
       <form onSubmit={handleUpload}>
         <input 
           type="file" 
@@ -51,7 +51,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
         />
         <button 
           type="submit"
-          className={`px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`px-4 py-2 bg-[#ed6325] text-white rounded hover:bg-[#d75c23] transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={loading}
         >
           {loading ? 'Uploading...' : 'Upload'}

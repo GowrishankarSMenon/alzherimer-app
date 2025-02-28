@@ -86,10 +86,10 @@ export default function UploadedMemories({ uploadedFiles = [] }: UploadedMemorie
     <div className="mt-10 px-4">
       {/* 🔹 Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Uploaded Memories</h2>
+        <h2 className="text-2xl font-bold text-[#ed6325] dark:text-gray-100">Uploaded Memories</h2>
         <button
           onClick={toggleSortOrder}
-          className="flex items-center gap-2 px-5 py-3 text-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+          className="flex items-center gap-2 px-5 py-3 text-lg bg-[#ed6325] dark:bg-gray-800 border border-[#d75c23] dark:border-gray-600 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition"
           aria-label={`Sort by title ${sortOrder === "asc" ? "descending" : "ascending"}`}
         >
           <span>Sort by Title</span>
@@ -120,7 +120,7 @@ export default function UploadedMemories({ uploadedFiles = [] }: UploadedMemorie
               {fileType === "image" && (
                 <div className="cursor-pointer overflow-hidden" onClick={() => openFileModal(decodedUrl, file.title, fileType)}>
                   <img src={decodedUrl} alt={file.title} className="w-full h-auto mb-3 rounded-lg hover:opacity-90 transition-opacity" />
-                  <div className="text-center text-md text-gray-600 dark:text-gray-400">
+                  <div className="text-center text-md text-[#ed6325] dark:text-gray-400">
                     Click image to view full size
                   </div>
                 </div>
@@ -137,13 +137,13 @@ export default function UploadedMemories({ uploadedFiles = [] }: UploadedMemorie
               {/* 🔹 Render PDFs */}
               {fileType === "pdf" && (
                 <div className="text-center">
-                  <a href={decodedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">
+                  <a href={decodedUrl} target="_blank" rel="noopener noreferrer" className="text-[#ed6325] dark:text-blue-400 underline">
                     📄 View PDF
                   </a>
                 </div>
               )}
 
-              <p className="text-md text-gray-500 dark:text-gray-300 mt-3">
+              <p className="text-md text-[#ed6325] dark:text-gray-300 mt-3">
                 Uploaded by: {file.uploader.displayName || file.uploader.email}
               </p>
             </div>

@@ -150,20 +150,20 @@ export default function SecureStorage() {
         showChat ? "w-1/2" : "w-full"
       }`}>
         {/* Toggle Button - Inside the main content */}
-        <div className="self-start mt-5">
+        <div className="self-start mt-36">
           <button 
             onClick={toggleChat}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
+            className="bg-[#ed6325] hover:bg-[#d75c23] text-white p-2  rounded-full shadow-lg"
             aria-label={showChat ? "Close AI Assistant" : "Open AI Assistant"}
           >
             {showChat ? <X size={24} /> : <MessageSquare size={24} />}
           </button>
         </div>
 
-        <h1 className="text-3xl font-bold mb-4">Secure Storage</h1>
+        <h1 className="text-3xl text-[#1e1b1b] font-bold mb-4">Secure Storage</h1>
 
         {!account ? (
-          <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={connectWallet}>
+          <button className="bg-[#ed6325] text-white px-4 font-bold py-2 rounded" onClick={connectWallet}>
             Connect MetaMask
           </button>
         ) : (
@@ -172,7 +172,7 @@ export default function SecureStorage() {
 
         {/* Add Document */}
         <div className="w-full max-w-md">
-          <h2 className="text-xl font-bold mb-2">Add Note</h2>
+          <h2 className="text-xl text-[#0a0a09] font-bold mb-2">Add Note</h2>
           <input
             type="text"
             placeholder="Name"
@@ -186,7 +186,7 @@ export default function SecureStorage() {
             onChange={(e) => setDocForm({ ...docForm, description: e.target.value })}
             className="w-full p-2 border rounded mb-2"
           />
-          <button className="bg-green-600 text-white px-4 py-2 rounded w-full" onClick={addDocument}>
+          <button className="bg-[#ed6325] text-white px-4 py-2 font-bold rounded w-full" onClick={addDocument}>
             Add Note
           </button>
         </div>
@@ -208,7 +208,7 @@ export default function SecureStorage() {
             onChange={(e) => setAccForm({ ...accForm, password: e.target.value })}
             className="w-full p-2 border rounded mb-2"
           />
-          <button className="bg-green-600 text-white px-4 py-2 rounded w-full" onClick={addAccount}>
+          <button className="bg-[#ed6325] text-white px-4 py-2 font-bold rounded w-full" onClick={addAccount}>
             Add Account
           </button>
         </div>

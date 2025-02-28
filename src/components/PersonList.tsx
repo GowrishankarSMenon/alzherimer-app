@@ -81,7 +81,7 @@ export default function PersonList() {
 
       {/* Add New User Button */}
       <button
-        className="w-full mt-4 flex items-center justify-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition"
+        className="w-full mt-4 flex items-center justify-center bg-[#ed6325] text-white py-2 rounded-lg hover:bg-[#d75c23] transition"
         onClick={() => router.push("/charity/memory")}
       >
         <FiPlus className="text-2xl mr-2" />

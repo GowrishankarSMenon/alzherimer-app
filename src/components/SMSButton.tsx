@@ -24,12 +24,12 @@ export default function SMSButton() {
   return (
     <button
       className={`
-        bg-blue-600 text-white px-6 py-3 rounded-lg font-medium
+        bg-[#ed6325] text-white px-6 py-3 rounded-lg font-medium
         transition-all duration-300 ease-in-out
-        hover:bg-blue-700 hover:shadow-lg
-        active:bg-blue-800 active:shadow-inner
+        hover:bg-[#d75c23] hover:shadow-lg
+        active:bg-[#e67744] active:shadow-inner
         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-        disabled:bg-blue-400 disabled:cursor-not-allowed disabled:shadow-none
+        disabled:bg-[#e99f7c] disabled:cursor-not-allowed disabled:shadow-none
       `}
       onClick={sendSMS}
       disabled={loading || sent}

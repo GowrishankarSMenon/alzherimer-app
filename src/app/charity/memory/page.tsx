@@ -117,9 +117,9 @@ export default function MemoryPage() {
 
   return (
     <div className="p-8 flex flex-col items-center bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">MemoryVault DApp</h1>
+      <h1 className="text-3xl text-[#ed6325] font-bold mb-4">MemoryVault DApp</h1>
       {!account ? (
-        <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={connectWallet}>
+        <button className="bg-[#ed6325] text-white px-4 py-2 rounded" onClick={connectWallet}>
           Connect MetaMask
         </button>
       ) : (
@@ -140,12 +140,12 @@ export default function MemoryPage() {
           className="w-full p-2 border rounded mb-2"
         />
         {previewUrl && <Image src={previewUrl} alt="Preview" width={96} height={96} className="object-cover mb-2 rounded-full" />}
-        <button className="bg-green-600 text-white px-4 py-2 rounded w-full" onClick={addPerson}>
+        <button className="bg-[#ed6325] text-white px-4 py-2 rounded w-full" onClick={addPerson}>
           Add Person
         </button>
       </div>
       <div className="w-full max-w-md mt-6">
-        <h2 className="text-xl font-bold mb-2">Stored Persons</h2>
+        <h2 className="text-xl text-[#ed6325] font-bold mb-2">Stored Persons</h2>
         <ul className="bg-white shadow p-4 rounded">
           {persons.map(({ name, profileImage }, index) => (
             <li

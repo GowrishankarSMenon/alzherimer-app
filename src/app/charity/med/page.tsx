@@ -103,15 +103,15 @@ export default function MedicalRecords() {
   return (
     <div className="min-h-screen bg-slate-50 p-6 font-sans">
       <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-sky-800 mb-2">🏥 Medical Records</h1>
-        <p className="text-slate-600 text-lg">Secure Patient Health History</p>
+        <h1 className="text-4xl font-bold text-[#ed6325] mb-2">🏥 Medical Records</h1>
+        <p className="text-[#ed6325] text-lg">Secure Patient Health History</p>
       </header>
 
       <main className="max-w-2xl mx-auto space-y-8">
         {!account ? (
           <div className="text-center">
             <button
-              className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors shadow-md"
+              className="bg-[#ed6325] hover:bg-[#d75c23] text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors shadow-md"
               onClick={connectWallet}
             >
               Connect MetaMask to Continue
@@ -120,11 +120,11 @@ export default function MedicalRecords() {
         ) : (
           <>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-              <h2 className="text-2xl font-semibold text-slate-800 mb-6">Add New Medical Record</h2>
+              <h2 className="text-2xl font-semibold text-[#ed6325] mb-6">Add New Medical Record</h2>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-slate-700 mb-1 font-medium">
+                  <label className="block text-[#ed6325] mb-1 font-medium">
                     Diagnosis
                   </label>
                   <input
@@ -137,7 +137,7 @@ export default function MedicalRecords() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 mb-1 font-medium">
+                  <label className="block text-[#ed6325] mb-1 font-medium">
                     Treatment
                   </label>
                   <input
@@ -150,7 +150,7 @@ export default function MedicalRecords() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 mb-1 font-medium">
+                  <label className="block text-[#ed6325] mb-1 font-medium">
                     Medication
                   </label>
                   <input
@@ -163,7 +163,7 @@ export default function MedicalRecords() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 mb-1 font-medium">
+                  <label className="block text-[#ed6325] mb-1 font-medium">
                     Date
                   </label>
                   <input
@@ -175,7 +175,7 @@ export default function MedicalRecords() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 mb-1 font-medium">
+                  <label className="block text-[#ed6325] mb-1 font-medium">
                     Doctor's Name
                   </label>
                   <input
@@ -189,7 +189,7 @@ export default function MedicalRecords() {
 
                 <button
                   onClick={addRecord}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-6 rounded-lg font-medium text-lg transition-colors mt-4"
+                  className="w-full bg-[#ed6325] hover:bg-[#d75c23] text-white py-3 px-6 rounded-lg font-medium text-lg transition-colors mt-4"
                 >
                   Save Medical Record
                 </button>
@@ -197,7 +197,7 @@ export default function MedicalRecords() {
             </div>
 
             <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-              <h2 className="text-2xl font-semibold text-slate-800 mb-6">Medical History</h2>
+              <h2 className="text-2xl font-semibold text-[#ed6325] mb-6">Medical History</h2>
               
               <div className="space-y-8">
                 {records.map((record, index) => (
@@ -205,15 +205,15 @@ export default function MedicalRecords() {
                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 w-full">
                       <div className="space-y-2">
                         <h3 className="text-lg font-semibold text-sky-800">{record.diagnosis}</h3>
-                        <p className="text-slate-600"><span className="font-medium">Treatment:</span> {record.treatment}</p>
-                        <p className="text-slate-600"><span className="font-medium">Medication:</span> {record.prescribedMedication}</p>
-                        <p className="text-slate-600"><span className="font-medium">Date:</span> {new Date(Number(record.date) * 1000).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
-                        <p className="text-slate-600"><span className="font-medium">Doctor:</span> {record.doctorName}</p>
+                        <p className="text-[#ed6325]"><span className="font-medium">Treatment:</span> {record.treatment}</p>
+                        <p className="text-[#ed6325]"><span className="font-medium">Medication:</span> {record.prescribedMedication}</p>
+                        <p className="text-[#ed6325]"><span className="font-medium">Date:</span> {new Date(Number(record.date) * 1000).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+                        <p className="text-[#ed6325]"><span className="font-medium">Doctor:</span> {record.doctorName}</p>
                       </div>
                     </div>
                     {index !== records.length - 1 && (
                       <div className="flex justify-center my-2">
-                        <svg className="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-6 h-6 text-[#ed6325]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                         </svg>
                       </div>
@@ -227,8 +227,8 @@ export default function MedicalRecords() {
       </main>
 
       {account && (
-        <div className="text-center mt-8 text-slate-500">
-          Connected account: <span className="font-mono text-slate-700">{account}</span>
+        <div className="text-center mt-8 text-[#ed6325]">
+          Connected account: <span className="font-mono text-[#ed6325]">{account}</span>
         </div>
       )}
     </div>

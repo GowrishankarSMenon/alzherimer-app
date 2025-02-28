@@ -369,7 +369,7 @@ return (
       <div className="relative flex justify-center mt-4 z-[100]">
         <button
           onClick={toggleChat}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
+          className="bg-[#ed6325] hover:bg-[#d75c23] text-white p-2 rounded-full shadow-lg"
           aria-label={showChat ? "Close AI Assistant" : "Open AI Assistant"}
         >
           {showChat ? <X size={24} /> : <MessageSquare size={24} />}
@@ -399,80 +399,92 @@ return (
             {!user ? (
               /* ---------------------------- Landing Content ---------------------------- */
               <div className="space-y-16">
-                {/* Hero Section */}
-                <section className="text-center pt-12 pb-24 space-y-6">
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tight">
-                    Preserving Memories,<br />
-                    <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                      Empowering Care
-                    </span>
-                  </h1>
-                  <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                    A compassionate platform connecting Alzheimer's patients with their caregivers through shared memories and secure communication.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onClick={signInWithGoogle} className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md">
-                      Get Started
-                    </button>
+              {/* Hero Section */}
+              <section className="text-center pt-12 pb-24 space-y-6">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0f0501] leading-tight tracking-tight">
+                  Preserving Memories,<br />
+                  <span className="bg-gradient-to-r from-[#ed6325] to-[#f4c77c] bg-clip-text text-transparent">
+                    Empowering Care
+                  </span>
+                </h1>
+                <p className="text-lg text-[#0f0501] max-w-2xl mx-auto">
+                  A compassionate platform connecting Alzheimer's patients with their caregivers through shared memories and secure communication.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button 
+                    onClick={signInWithGoogle} 
+                    className="bg-[#ed6325] text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-[#d9551f] transition-all shadow-sm hover:shadow-md"
+                  >
+                    Get Started
+                  </button>
+                  <button className="border border-[#ed6325] text-[#ed6325] px-6 py-3 rounded-lg text-base font-medium hover:bg-[#fef9f7] transition-all shadow-sm">
+                    Learn More
+                  </button>
+                </div>
+              </section>
 
-                    <button className="border border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-50 transition-all shadow-sm">
-                      Learn More
-                    </button>
+              {/* Features Grid */}
+              <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 py-12">
+                {[
+                  { icon: CloudArrowUpIcon, title: 'Memory Preservation', text: 'Securely store and organize precious memories with advanced encryption' },
+                  { icon: UserGroupIcon, title: 'Caretaker Network', text: 'Connect with trusted caregivers and family members' },
+                  { icon: ShieldCheckIcon, title: 'Secure Sharing', text: 'IPFS-based storage with blockchain security features' },
+                  { icon: ClockIcon, title: 'Memory Triggers', text: 'Automated reminders and memory prompts' }
+                ].map((feature, idx) => (
+                  <div key={idx} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                    <feature.icon className="h-10 w-10 text-[#ed6325] mb-4" />
+                    <h3 className="text-lg font-semibold mb-2 text-[#0f0501]">{feature.title}</h3>
+                    <p className="text-sm leading-relaxed text-[#0f0501]">{feature.text}</p>
                   </div>
-                </section>
+                ))}
+              </section>
 
-                {/* Features Grid */}
-                <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 py-12">
-                  {[
-                    { icon: CloudArrowUpIcon, title: 'Memory Preservation', text: 'Securely store and organize precious memories with advanced encryption' },
-                    { icon: UserGroupIcon, title: 'Caretaker Network', text: 'Connect with trusted caregivers and family members' },
-                    { icon: ShieldCheckIcon, title: 'Secure Sharing', text: 'IPFS-based storage with blockchain security features' },
-                    { icon: ClockIcon, title: 'Memory Triggers', text: 'Automated reminders and memory prompts' }
-                  ].map((feature, idx) => (
-                    <div key={idx} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                      <feature.icon className="h-10 w-10 text-indigo-600 mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">{feature.text}</p>
+              {/* How It Works */}
+              <section className="py-16">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-[#0f0501] mb-3">How It Works</h2>
+                  <p className="max-w-xl mx-auto text-[#0f0501]">
+                    A simple three-step process to preserve and share memories
+                  </p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {['Upload Memories', 'Connect Caretakers', 'Share Securely'].map((step, idx) => (
+                    <div key={step} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                      <div 
+                        className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" 
+                        style={{ backgroundColor: '#fedcd2', color: '#ed6325' }}
+                      >
+                        <span className="text-lg font-semibold text-[#0f0501]">{idx + 1}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-3 text-[#0f0501]">{step}</h3>
+                      <p className="text-sm mb-4 text-[#0f0501]">Secure upload process with automatic metadata tagging and organization</p>
+                      <button className="flex items-center gap-1.5 text-sm font-medium text-[#ed6325] hover:text-[#d9551f]"></button>
                     </div>
                   ))}
-                </section>
+                </div>
+              </section>
 
-                {/* How It Works */}
-                <section className="py-16">
-                  <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-3">How It Works</h2>
-                    <p className="text-gray-600 max-w-xl mx-auto">A simple three-step process to preserve and share memories</p>
+              {/* CTA Section */}
+              <section className="bg-[#ed6325] text-white py-16 rounded-xl">
+                <div className="max-w-4xl mx-auto px-4 text-center">
+                  <h2 className="text-3xl font-bold mb-4">Start Preserving Memories Today</h2>
+                  <p className="mb-8">
+                    Join thousands of families already benefiting from our secure memory preservation platform
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button 
+                      onClick={signInWithGoogle}
+                      className="bg-white text-[#ed6325] px-6 py-3 rounded-lg text-base font-medium hover:bg-[#f0f0f0] transition-all shadow-sm"
+                    >
+                      Sign Up Free
+                    </button>
+                    <button className="border border-white text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-white/10 transition-all">
+                      Watch Demo
+                    </button>
                   </div>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    {['Upload Memories', 'Connect Caretakers', 'Share Securely'].map((step, idx) => (
-                      <div key={step} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                          <span className="text-lg font-semibold">{idx + 1}</span>
-                        </div>
-                        <h3 className="text-lg font-semibold mb-3">{step}</h3>
-                        <p className="text-gray-600 text-sm mb-4">Secure upload process with automatic metadata tagging and organization</p>
-                        <button className="text-indigo-600 flex items-center gap-1.5 text-sm font-medium hover:text-indigo-700"></button>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="bg-indigo-600 text-white py-16 rounded-xl">
-                  <div className="max-w-4xl mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold mb-4">Start Preserving Memories Today</h2>
-                    <p className="text-gray-200 mb-8">Join thousands of families already benefiting from our secure memory preservation platform</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <button onClick={signInWithGoogle} className="bg-white text-indigo-600 px-6 py-3 rounded-lg text-base font-medium hover:bg-indigo-50 transition-all shadow-sm">
-                        Sign Up Free
-                      </button>
-                      <button className="border border-white text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-white/10 transition-all">
-                        Watch Demo
-                      </button>
-                    </div>
-                  </div>
-                </section>
-              </div>
+                </div>
+              </section>
+            </div>
             ) : (
               /* ---------------------------- Dashboard Content ---------------------------- */
               <div className="py-8 space-y-8">
@@ -527,17 +539,17 @@ return (
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 place-items-center">
                   <Link href="/charity">
-                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all">
+                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-[#ed6325] text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all">
                       Donate to Charity
                     </button>
                   </Link>
                   <Link href="/charity/docs">
-                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-all">
+                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-[#ed6325] text-white rounded-lg shadow-md hover:bg-green-700 transition-all">
                       Store critical info and docs
                     </button>
                   </Link>
                   <Link href="/charity/med">
-                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 transition-all">
+                    <button className="btn text-lg px-6 py-3 w-full sm:w-auto bg-[#ed6325] text-white rounded-lg shadow-md hover:bg-purple-700 transition-all">
                       Upload medical data
                     </button>
                   </Link>

@@ -79,11 +79,11 @@ export default function Charity() {
       </div>
       {/* Right Content Section */}
       <div className="w-1/2 flex flex-col items-center justify-center bg-gray-100 p-10">
-        <h1 className="text-3xl font-bold mb-6">Charity Fund DApp</h1>
+        <h1 className="text-3xl text-[#ed6325] font-bold mb-6">Donate To Charity </h1>
         {!account ? (
           <button
             onClick={connectWallet}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
+            className="px-6 py-3 bg-[#ed6325] mb-5 text-white rounded-lg shadow-md hover:bg-[#d75c23]"
           >
             Connect MetaMask
           </button>
@@ -101,7 +101,7 @@ export default function Charity() {
 
         <button
           onClick={contributeFunds}
-          className="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700"
+          className="px-6 py-3 bg-[#ed6325] text-white rounded-lg shadow-md hover:bg-[#d75c23]"
         >
           Contribute
         </button>

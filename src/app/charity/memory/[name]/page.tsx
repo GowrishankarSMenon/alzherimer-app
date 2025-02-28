@@ -104,11 +104,11 @@ export default function MemoryVault() {
   return (
     <div className="flex h-screen">
       {/* Left Section - Memory Display */}
-      <div className="w-1/2 bg-blue-900 text-white p-6 overflow-y-auto">
+      <div className="w-1/2 bg-[#1f0a02] text-white p-6 overflow-y-auto">
         <div className="flex items-center space-x-4">
 
           {/* Heading */}
-          <h2 className="text-2xl font-bold mb-4">Memories for {name}</h2>
+          <h2 className="text-2xl text-[#ed6325] font-bold mb-4">Memories for {name}</h2>
           {/* Profile Image */}
           <div className="w-12 mb-2 h-12 rounded-full overflow-hidden">
             <img
@@ -121,7 +121,7 @@ export default function MemoryVault() {
 
         {/* Wallet Connect Button */}
         {!account ? (
-          <button className="bg-blue-600 text-white px-4 py-2 rounded mb-4" onClick={connectWallet}>
+          <button className="bg-[#ed6325] text-white px-4 py-2 rounded mb-4" onClick={connectWallet}>
             Connect MetaMask
           </button>
         ) : (
@@ -169,11 +169,11 @@ export default function MemoryVault() {
 
       {/* Right Section - Add New Memory */}
       <div className="w-1/2 p-8 bg-gray-100 flex flex-col justify-center">
-        <h1 className="text-3xl font-bold mb-4">Add a Memory</h1>
+        <h1 className="text-3xl text-[#ed6325] font-bold mb-4">Add a Memory</h1>
         <div className="w-full max-w-md">
           {/* Calendar Component */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Select Date</label>
+            <label className="block text-sm text-[#ed6325] font-medium mb-1">Select Date</label>
             <DatePicker
               selected={memoryForm.date}
               onChange={(date: Date) => setMemoryForm({ ...memoryForm, date })}
@@ -191,7 +191,7 @@ export default function MemoryVault() {
           />
 
           {/* Add Memory Button */}
-          <button className="bg-green-600 text-white px-4 py-2 rounded w-full" onClick={addMemory}>
+          <button className="bg-[#ed6325] text-white px-4 py-2 rounded w-full" onClick={addMemory}>
             Add Memory
           </button>
         </div>

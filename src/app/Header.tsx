@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ user, userRole }) => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-4 flex items-center justify-between">
         {/* App Name */}
         <div className="flex items-center">
-          <span className="text-2xl font-bold text-indigo-600 bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+          <span className="text-2xl font-bold text-[#ed6325] bg-gradient-to-r from-[#ed6325] to-[#ed6325] bg-clip-text text-transparent">
             Memory Guardian
           </span>
         </div>
@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ user, userRole }) => {
           {userRole === "patient" && (
             <>
               <Link href="/charity/diary">
-                <button className="px-5 py-2 text-sm font-semibold bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-all shadow-sm hover:shadow-md">
+                <button className="px-5 py-2 text-sm font-semibold bg-indigo-100 text-[#ed6325] hover:bg-[#d75c23] rounded-lg transition-all shadow-sm hover:shadow-md">
                   View Diary
                 </button>
               </Link>
@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ user, userRole }) => {
             /* Sign In Button */
             <button
               onClick={signInWithGoogle}
-              className="px-6 py-2.5 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all shadow-sm hover:shadow-md"
+              className="px-6 py-2.5 text-sm font-semibold bg-[#ed6325] hover:bg-[#d75c23] text-white rounded-lg transition-all shadow-sm hover:shadow-md"
             >
               Sign in with Google
             </button>

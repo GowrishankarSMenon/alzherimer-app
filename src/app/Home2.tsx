@@ -388,18 +388,18 @@ export default function Home() {
         {/* Charity Section - Only Visible if User is Logged In */}
         {user && (
           <div className="mt-6 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-semibold text-[#ed6325] mb-4">
               Charity Section
             </h2>
             <div className="flex flex-wrap gap-4">
               <Link href="/charity">
-                <button className="btn text-lg px-6 py-3">Charity Home</button>
+                <button className="btn text-lg text-[#ed6325] px-6 py-3">Charity Home</button>
               </Link>
               <Link href="/charity/docs">
-                <button className="btn text-lg px-6 py-3">Charity Documents</button>
+                <button className="btn text-lg text-[#ed6325] px-6 py-3">Charity Documents</button>
               </Link>
               <Link href="/charity/biodata">
-                <button className="btn text-lg px-6 py-3">Charity Biodata</button>
+                <button className="btn text-lg px-6 text-[#ed6325] py-3">Charity Biodata</button>
               </Link>
             </div>
           </div>

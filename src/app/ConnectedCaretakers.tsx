@@ -22,7 +22,7 @@ export default function ConnectedCaretakers({ connectedUsers, removeConnection }
                 <p className="text-sm text-gray-500 mb-2 overflow-auto">{connectedUser.email}</p>
                 <button 
                   onClick={() => removeConnection(connectedUser.uid)} 
-                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                  className="px-3 py-1 text-sm bg-[#ed6325] text-white rounded hover:bg-[#d75c23] transition"
                 >
                   Remove Connection
                 </button>
@@ -30,7 +30,7 @@ export default function ConnectedCaretakers({ connectedUsers, removeConnection }
             ))}
           </div>
         ) : (
-          <p>No connected caretakers</p>
+          <p >No connected caretakers</p>
         )}
       </div>
     );

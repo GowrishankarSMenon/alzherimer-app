@@ -35,7 +35,7 @@ export default function Chat() {
         <div className="h-64 overflow-y-auto border border-gray-700 p-2 mb-4 rounded">
           {chat.map((c, i) => (
             <div key={i}>
-              <p className="text-blue-400 font-semibold">You: {c.user}</p>
+              <p className="text-[#ed6325]font-semibold">You: {c.user}</p>
               <p className="text-gray-300">Bot: {c.bot}</p>
               <hr className="my-2 border-gray-700" />
             </div>
@@ -51,7 +51,7 @@ export default function Chat() {
             placeholder="Type a message..."
           />
           <button
-            className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg"
+            className="ml-2 bg-[#ed6325] text-white px-4 py-2 rounded-lg"
             onClick={sendMessage}
             disabled={loading}
           >
