@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   try {
     const genAI = new GoogleGenerativeAI("AIzaSyB9JFB4drSiwZBmSdQVmbs8erueoPNWhLc");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const prompt = `Give me a reply as this elon musk to the following question or text message in chat: "${message}". Points to note: the reply should match their personality.`;
+    const prompt = ` secure memory vault . it do save precious memories forever on a tamper-proof system called blockchain. question: ${message}, please ans to this question properly which can understand by a patient with memory loss or low iq?, Note: ans must with in 3 lines or point to point manner`;
     const result = await model.generateContent(prompt);
     const reply = result.response.text();
     return NextResponse.json({ reply });

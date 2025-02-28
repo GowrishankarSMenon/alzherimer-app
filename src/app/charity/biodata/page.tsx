@@ -85,8 +85,10 @@ export default function BioData() {
   return (
     <div className="flex h-screen">
       {/* Left Side - Black Screen */}
-      <div className="w-1/2 bg-black"></div>
 
+<div className="w-1/2 bg-black"> 
+  
+      </div>
       {/* Right Side - UI */}
       <div className="w-1/2 p-8 flex flex-col items-center justify-center bg-gray-100">
         <h1 className="text-3xl font-bold mb-4">BioData DApp</h1>

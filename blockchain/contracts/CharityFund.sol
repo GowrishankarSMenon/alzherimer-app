@@ -52,4 +52,32 @@ contract CharityFund {
 
 
     }
+
+    struct Document {
+        string name;
+        string description;
+    }
+
+    struct Account {
+        string accountNumber;
+        string password;
+    }
+
+    mapping(address => Document[]) private userDocuments;
+    mapping(address => Account[]) private userAccounts;
+
+    function addDocument(string memory _name, string memory _description) public {
+        userDocuments[msg.sender].push(Document(_name, _description));
+    }
+
+    function addAccount(string memory _accountNumber, string memory _password) public {
+        userAccounts[msg.sender].push(Account(_accountNumber, _password));
+    }
+
+    function getDocuments() public view returns (Document[] memory) {
+        return userDocuments[msg.sender];
+    }
+   function getaccounts() public view returns (Account[] memory) {
+    return userAccounts[msg.sender];
+}
 }
