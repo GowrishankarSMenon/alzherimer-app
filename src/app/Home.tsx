@@ -327,24 +327,24 @@ export default function Home() {
   };
 
   const removeConnection = async (connectionUid: string) => {
-    if (!user) return;
+  if (!user) return;
 
-    try {
-      const currentUserRef = doc(db, "users", user.uid);
-      await updateDoc(currentUserRef, {
-        connections: arrayRemove(connectionUid)
-      });
+  try {
+    const currentUserRef = doc(db, "users", user.uid);
+    await updateDoc(currentUserRef, {
+      connections: arrayRemove(connectionUid)
+    });
 
-      const connectionRef = doc(db, "users", connectionUid);
-      await updateDoc(connectionRef, {
-        connections: arrayRemove(user.uid)
-      });
+    const connectionRef = doc(db, "users", connectionUid);
+    await updateDoc(connectionRef, {
+      connections: arrayRemove(user.uid)
+    });
 
-      fetchConnections();
-    } catch (error) {
-      console.error("Error removing connection:", error);
-    }
-  };
+    fetchConnections();
+  } catch (error) {
+    console.error("Error removing connection:", error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">

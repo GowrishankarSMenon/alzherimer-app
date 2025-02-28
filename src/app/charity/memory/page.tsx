@@ -19,9 +19,8 @@ export default function MemoryPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      const newProvider = new ethers.BrowserProvider(window.ethereum);
-      setProvider(newProvider);
+    if (window.ethereum) {
+      setProvider(new ethers.BrowserProvider(window.ethereum));
     }
   }, []);
 
@@ -33,22 +32,19 @@ export default function MemoryPage() {
 
     try {
       const signer = await provider!.getSigner();
-      const userAddress = await signer.getAddress();
-      setAccount(userAddress);
-
-      const newContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-      setContract(newContract);
-
-      fetchPersons(newContract);
+      setAccount(await signer.getAddress());
+      setContract(new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer));
+      fetchPersons();
     } catch (error) {
       console.error("Wallet Connection Failed", error);
       alert("Failed to connect wallet!");
     }
   };
 
-  const fetchPersons = async (contractInstance: ethers.Contract) => {
+  const fetchPersons = async () => {
+    if (!contract) return;
     try {
-      const data = await contractInstance.getPersons();
+      const data = await contract.getPersons();
       setPersons(data);
     } catch (error) {
       console.error("Failed to fetch persons", error);
@@ -64,13 +60,11 @@ export default function MemoryPage() {
     try {
       const signer = await provider!.getSigner();
       const contractWithSigner = contract.connect(signer);
-
       const tx = await contractWithSigner.addPerson(personName);
       await tx.wait();
       alert("Person Added!");
-
       setPersonName("");
-      fetchPersons(contract);
+      fetchPersons();
     } catch (error) {
       console.error("Transaction Failed", error);
       alert("Transaction Failed!");
@@ -81,7 +75,7 @@ export default function MemoryPage() {
     <div className="p-8 flex flex-col items-center bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-4">MemoryVault DApp</h1>
 
-      {/* Connect Wallet Button */}
+      {/* Connect Wallet */}
       {!account ? (
         <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={connectWallet}>
           Connect MetaMask

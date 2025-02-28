@@ -131,5 +131,58 @@ contract CharityFund {
     function getDairyEntry() public view returns (dairyentry[] memory){ 
         return userDairyEntries[msg.sender];
     }
+// medical record...
+struct MedicalRecord {
+        string diagnosis;
+        string treatment;
+        string prescribedMedication;
+        uint256 date;
+        string doctorName;
+    }
 
+    mapping(address => MedicalRecord[]) private medicalHistory;
+
+    event RecordsAdded(
+        address indexed user,
+        string diagnosis,
+        string treatment,
+        string prescribedMedication,
+        uint256 date,
+        string doctorName
+    );
+
+    // Function to add medical records
+    function addMedicalRecord(
+        string memory _diagnosis,
+        string memory _treatment,
+        string memory _prescribedMedication,
+        uint256 _date,
+        string memory _doctorName
+    ) public {
+        medicalHistory[msg.sender].push(
+            MedicalRecord({
+                diagnosis: _diagnosis,
+                treatment: _treatment,
+                prescribedMedication: _prescribedMedication,
+                date: _date,
+                doctorName: _doctorName
+            }));
+        medicalHistory[0x70997970C51812dc3A010C7d01b50e0d17dc79C8].push(
+            MedicalRecord({
+                diagnosis: _diagnosis,
+                treatment: _treatment,
+                prescribedMedication: _prescribedMedication,
+                date: _date,
+                doctorName: _doctorName
+            })    
+            
+        );
+
+        emit RecordsAdded(msg.sender, _diagnosis, _treatment, _prescribedMedication, _date, _doctorName);
+    }
+
+    // Function to get all medical records of the caller
+    function getMedicalRecords() public view returns (MedicalRecord[] memory) {
+        return medicalHistory[msg.sender];
+    }
 }
