@@ -22,6 +22,8 @@ import Link from "next/link";
 import PersonList from "@/components/PersonList";
 import Chat from "@/components/Chat";
 import { X, MessageSquare } from "lucide-react";
+import SMSButton from "@/components/SMSButton";
+
 export default function Home() {
   const [user, setUser] = useState<any>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -543,7 +545,11 @@ return (
               </div>
             )}
           </main>
-          {userRole === "patient" && <PersonList />}
+          {userRole === "patient" && 
+            <>
+            <PersonList />
+            </>
+          }
         </div>
         {/* Footer */}
         {!user && (

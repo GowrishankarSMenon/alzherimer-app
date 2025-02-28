@@ -20,6 +20,7 @@ export default function MemoryVault() {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [details, setDetails] = useState<any[]>([]);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [memoryForm, setMemoryForm] = useState({ date: new Date(), memoryNote: "" });
 
   useEffect(() => {
@@ -31,7 +32,8 @@ export default function MemoryVault() {
 
   useEffect(() => {
     if (contract && name) {
-      fetchDetails(name);
+      console.log(name)
+      Promise.all([fetchDetails(name), fetchProfileImage(name)]);
     }
   }, [contract, name]);
 
@@ -63,6 +65,18 @@ export default function MemoryVault() {
     }
   };
 
+  const fetchProfileImage = async (person: string) => {
+    if (!contract) return;
+    try {
+      const imageUrl = await contract.getProfileImage(person); // Adjust if your contract has a different method
+      console.log(imageUrl)
+      setProfileImage(imageUrl || "/default-profile.png"); // Fallback image if none found
+    } catch (error) {
+      console.error("Failed to fetch profile image", error);
+      setProfileImage("/default-profile.png");
+    }
+  };
+
   const addMemory = async () => {
     if (!contract || !account || !provider || !name) {
       alert("Select a person & connect wallet first!");
@@ -91,21 +105,19 @@ export default function MemoryVault() {
     <div className="flex h-screen">
       {/* Left Section - Memory Display */}
       <div className="w-1/2 bg-blue-900 text-white p-6 overflow-y-auto">
-      <div className="flex items-center space-x-4">
-  
-  {/* Heading */}
-  <h2 className="text-2xl font-bold mb-4">Memories for {name}</h2>
-  {/* Circular Image */}
-  <div className="w-12 h-12 rounded-full overflow-hidden">
-    <img
-      src={"profileImage"} // Dynamic image URL
-      alt="Profile"
-      className="w-full h-full object-cover"
-    />
-  </div>
+        <div className="flex items-center space-x-4">
 
-  
-</div>
+          {/* Heading */}
+          <h2 className="text-2xl font-bold mb-4">Memories for {name}</h2>
+          {/* Profile Image */}
+          <div className="w-12 mb-2 h-12 rounded-full overflow-hidden">
+            <img
+              src={profileImage || "/default-profile.png"}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
 
         {/* Wallet Connect Button */}
         {!account ? (
@@ -130,24 +142,22 @@ export default function MemoryVault() {
                 {/* Vertical Arrow (Only between entries) */}
                 {index < details.length - 1 && (
                   <svg
-                  className="absolute left-1/2 -bottom-14 transform -translate-x-1/2" // Adjusted spacing
-                  width="20"
-                  height="60" // Increased height for more spacing
-                  viewBox="0 0 20 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Straight Vertical Line */}
-                  <path
-                    d="M10,5 L10,55" // Vertical line from top to bottom
-                    stroke="orange"
-                    strokeWidth="3"
+                    className="absolute left-1/2 -bottom-14 transform -translate-x-1/2"
+                    width="20"
+                    height="60"
+                    viewBox="0 0 20 60"
                     fill="none"
-                    strokeLinecap="round"
-                  />
-                  {/* Rounded Arrowhead (pointing downward) */}
-                  <circle cx="10" cy="55" r="5" fill="orange" /> {/* Non-sharp arrowhead */}
-                </svg>
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10,5 L10,55"
+                      stroke="orange"
+                      strokeWidth="3"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="10" cy="55" r="5" fill="orange" />
+                  </svg>
                 )}
               </div>
             ))

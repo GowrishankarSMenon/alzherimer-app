@@ -22,14 +22,31 @@ export default function SMSButton() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-black text-white">
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-        onClick={sendSMS}
-        disabled={loading || sent}
-      >
-        {loading ? "Sending..." : sent ? "Sent ✅" : "Send SMS"}
-      </button>
-    </div>
+    <button
+      className={`
+        bg-blue-600 text-white px-6 py-3 rounded-lg font-medium
+        transition-all duration-300 ease-in-out
+        hover:bg-blue-700 hover:shadow-lg
+        active:bg-blue-800 active:shadow-inner
+        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+        disabled:bg-blue-400 disabled:cursor-not-allowed disabled:shadow-none
+      `}
+      onClick={sendSMS}
+      disabled={loading || sent}
+    >
+      {loading ? (
+        <span className="flex items-center gap-2">
+          <span className="animate-spin">🔄</span>
+          Sending...
+        </span>
+      ) : sent ? (
+        <span className="flex items-center gap-2">
+          <span>✅</span>
+          Sent
+        </span>
+      ) : (
+        "Send SMS"
+      )}
+    </button>
   );
 }

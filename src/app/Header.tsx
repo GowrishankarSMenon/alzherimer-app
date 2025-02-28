@@ -1,6 +1,7 @@
 import { logOut, signInWithGoogle, auth } from "./lib/firebaseConfig";
 import React from "react";
 import Link from "next/link";
+import SMSButton from "@/components/SMSButton"; // Import the SMSButton
 
 interface HeaderProps {
   user: {
@@ -23,12 +24,16 @@ const Header: React.FC<HeaderProps> = ({ user, userRole }) => {
 
         {/* User Info / Authentication */}
         <div className="flex items-center space-x-6">
+          {/* Conditionally render "View Diary" and SMSButton for patients */}
           {userRole === "patient" && (
-            <Link href="/charity/diary">
-              <button className="px-5 py-2 text-sm font-semibold bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-all shadow-sm hover:shadow-md">
-                View Diary
-              </button>
-            </Link>
+            <>
+              <Link href="/charity/diary">
+                <button className="px-5 py-2 text-sm font-semibold bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-all shadow-sm hover:shadow-md">
+                  View Diary
+                </button>
+              </Link>
+              <SMSButton /> {/* Add the SMSButton here */}
+            </>
           )}
 
           {user ? (
