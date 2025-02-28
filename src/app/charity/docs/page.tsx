@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Abi from "../../../../blockchain/artifacts/contracts/CharityFund.sol/CharityFund.json";
 import Chat from "@/components/Chat";
-
+import PersonList from "@/components/PersonList";
 const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with deployed contract
 const CONTRACT_ABI = Abi.abi;
 
