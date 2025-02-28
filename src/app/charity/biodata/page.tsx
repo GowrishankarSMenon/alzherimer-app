@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Abi from "../../../../blockchain/artifacts/contracts/CharityFund.sol/CharityFund.json";
+import Chat from "@/components/Chat";
 
 const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with deployed contract
 const CONTRACT_ABI = Abi.abi;
@@ -87,7 +88,7 @@ export default function BioData() {
       {/* Left Side - Black Screen */}
 
 <div className="w-1/2 bg-black"> 
-  
+  <Chat></Chat>
       </div>
       {/* Right Side - UI */}
       <div className="w-1/2 p-8 flex flex-col items-center justify-center bg-gray-100">

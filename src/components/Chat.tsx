@@ -16,11 +16,13 @@ export default function Chat() {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: userMessage }),
+      body: JSON.stringify({
+        message: userMessage,
+        page: window.location.pathname, // passing the current page path
+      }),
     });
 
     const data = await res.json();
-    console.log(data)
     setChat([...chat, { user: userMessage, bot: data.reply }]);
     setLoading(false);
   };
@@ -29,7 +31,7 @@ export default function Chat() {
     <div className="flex flex-col items-center justify-center h-screen p-4 bg-black text-white">
       <div className="w-full max-w-lg bg-gray-900 p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4 text-center">Chatbot</h1>
-        
+
         <div className="h-64 overflow-y-auto border border-gray-700 p-2 mb-4 rounded">
           {chat.map((c, i) => (
             <div key={i}>
@@ -39,7 +41,7 @@ export default function Chat() {
             </div>
           ))}
         </div>
-        
+
         <div className="flex">
           <input
             type="text"
